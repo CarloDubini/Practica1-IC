@@ -23,13 +23,13 @@ struct tNodo {
 };
 
 void cambiarColor(vector<vector<tNodo>> Mapa, int x, int y) {
-	if (Mapa[x][y].estado == "cerrada") {
+	if (Mapa[x][y].estado == "c") {
 		cout << ORANGE;
 	}
-	else if (Mapa[x][y].estado == "abierta") {
+	else if (Mapa[x][y].estado == "a") {
 		cout << ROSE;
 	}
-	else if (Mapa[x][y].estado == "sol") {
+	else if (Mapa[x][y].estado == "s") {
 		cout << LGREEN;
 	}
 	else {
@@ -100,7 +100,7 @@ void mostarPorPantalla(vector<vector<tNodo>> Mapa) {
 int main() {
 	std::locale::global(std::locale(""));
 	system("color 37");
-
+	tNodo ini, meta;
 	int N, M;
 	bool hayInicio = false, hayMeta = false;
 	int x, y;
@@ -132,6 +132,7 @@ int main() {
 				if (!hayInicio && posValida(x, y, Mapa)) {
 					Mapa[x - 1][y - 1].tipo = "inicio";
 					hayInicio = true;
+					ini = Mapa[x - 1][y - 1];
 				}
 				system("cls");
 				break;
@@ -141,6 +142,7 @@ int main() {
 				if (!hayMeta && posValida(x, y, Mapa)) {
 					Mapa[x - 1][y - 1].tipo = "meta";
 					hayMeta = true;
+					meta = ini = Mapa[x - 1][y - 1];
 				}
 				system("cls");
 				break;
@@ -175,13 +177,10 @@ int main() {
 				system("cls");
 				break;
 			case 6:
-				//codigo para pruebas de color
-				Mapa[1][1].estado = "sol";
-				Mapa[1][2].estado = "cerrada";
-				Mapa[0][0].estado = "abierta";
-				Mapa[0][1].estado = "sol";
+				
 				if(hayInicio && hayMeta){
 					//llamar a la función que realice el a*
+					algoritmo(mapa, ini, meta);
 					cout << "\n El camino marcado en verde se corresponde con los nodos solución\n";
 					cout << "\n El camino marcado en naranja se corresponde con los nodos que están en la lista cerrada\n";
 					cout << "\n El camino marcado en rosa se corresponde con los nodos que están en la lista abierta\n";
@@ -192,6 +191,7 @@ int main() {
 				break;
 			case 7:
 				hayInicio = false; hayMeta = false;
+				ini = meta = new tNodo();
 				Mapa = CrearVacio(N, M);
 				break;
 			default:

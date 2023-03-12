@@ -12,6 +12,7 @@ struct tNodo {
 	int h = 0, g = 0;
 	int f = 0;
 	string tipo = "libre"; //{libre,peligroso,bloqueado}
+	string estado = "n"; //{n=nada, s=solucion,c=cerrada,a=abierta}
 	bool penalizacion = false; 
 };
 

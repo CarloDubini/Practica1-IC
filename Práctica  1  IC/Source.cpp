@@ -30,11 +30,13 @@ void algoritmo(vector<vector<tNodo>> mapa, tNodo inicio, tNodo fin ) {
 
 	//se inserta el nodo de inicio
 	tNodo nodo = inicio;
+	nodo.estado = "a";
 	abierta.insert({ {nodo.y,nodo.x},nodo });
 	
 	
 	// en este bucle tendremos que insertar el nodo mas barato f(x) en la lista cerrada, quitarlo de la lista abierta, expandir ese nodo y volver a asignar un nodo nuevo
 	while (!alcanzado) {
+		nodo.estado = "c";
 		cerrada.insert({ nodo.y,nodo.x }, nodo);
 		abierta.erase({ nodo.y,nodo.x });
 
@@ -79,6 +81,7 @@ bool expandir(vector<vector<tNodo>>& mapa, tNodo n, unordered_map<pair<int, int>
 				if (i == fin.y && j == fin.x) { // es el fin?
 					fin.padre = { n.y,n.x };
 					cerrada.insert({ {fin.y,fin.x},fin });
+					fin.estado = "c";
 					return true;
 				}
 
@@ -115,6 +118,7 @@ bool expandir(vector<vector<tNodo>>& mapa, tNodo n, unordered_map<pair<int, int>
 					mapa[n.y][n.x].hijos.push_back({ i,j });
 					mapa[i][j].g = coste;
 					mapa[i][j].f = mapa[i][j].g + mapa[i][j].h;
+					mapa[i][j].estado = "a";
 					abierta.insert({ { i,j }, mapa[i][j] });
 				}
 			}
